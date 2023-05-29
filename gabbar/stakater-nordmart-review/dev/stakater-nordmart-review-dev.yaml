@@ -1,0 +1,20 @@
+# Name: stakater-nordmart-review.yaml(APP_NAME.yaml)
+# Path: gabbar/argocd-apps/dev (TENANT_NAME/argocd-apps/ENV_NAME/)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gabbar-dev-stakater-nordmart-review
+  namespace: rh-openshift-gitops-instance
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: 'https://kubernetes.default.svc'
+  project: gabbar
+  source:
+    path: gabbar/stakater-nordmart-review/dev
+    repoURL: 'git@github.com:ayeshasiddiqa161/test-apps-gitops.git'
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
