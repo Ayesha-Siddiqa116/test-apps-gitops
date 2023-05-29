@@ -1,0 +1,20 @@
+# Name: gabbar-dev.yaml (TENANT_NAME-ENV_NAME.yaml)
+# Path: argocd-apps/dev
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gabbar-dev
+  namespace: rh-openshift-gitops-instance
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: 'https://kubernetes.default.svc'
+  project: gabbar
+  source:
+    path: gabbar/argocd-apps/dev
+    repoURL: 'git@github.com:ayeshasiddiqa161/test-apps-gitops.git'
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
