@@ -1,0 +1,9 @@
+# <tenant-name>/<app-name>/dev/values.yaml
+# Name of dependency in Chart.yaml
+<dependency-name>:
+  application:
+    deployment:
+      image:
+        # repository: <nexus-docker-reg-url>/<tenant-name>/<app-name>
+        repository: nexus-helm-stakater-nexus.apps.preprod.jlvwjls8.kubeapp.cloud/repository/helm-charts/gabbar
+        tag: 1.0.0
