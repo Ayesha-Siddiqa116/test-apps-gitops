@@ -11,7 +11,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: gabbar/argocd-apps/dev
+    path: gabbar/stakater-nordmart-review/dev
     repoURL: 'git@github.com:ayeshasiddiqa161/test-apps-gitops.git'
     targetRevision: HEAD
   syncPolicy:
