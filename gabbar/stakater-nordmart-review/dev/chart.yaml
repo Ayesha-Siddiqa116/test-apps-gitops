@@ -1,0 +1,12 @@
+# <tenant-name>/<app-name>/dev/Chart.yaml
+apiVersion: v2
+# name: <app-name>
+name: stakater-nordmart-review-web
+description: A Helm chart for Kubernetes
+dependencies:
+  # name: <chart-name-in-deploy-folder>
+  - name: stakater-nordmart-review-web
+    version: "1.0.0"
+    # repository: <nexus-helm-reg-url>/repository/helm-charts/
+    repository: nexus-helm-stakater-nexus.apps.preprod.jlvwjls8.kubeapp.cloud/repository/helm-charts/gabbar
+version: 1.0.0
