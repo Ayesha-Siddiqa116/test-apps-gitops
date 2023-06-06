@@ -1,7 +1,7 @@
 # <tenant-name>/<app-name>/dev/Chart.yaml
 apiVersion: v2
 # name: <app-name>
-name: stakater-nordmart-review-web
+name: stakater-nordmart-review-ui
 description: A Helm chart for Kubernetes
 dependencies:
   # name: <chart-name-in-deploy-folder>
