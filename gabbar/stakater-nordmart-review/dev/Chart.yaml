@@ -5,8 +5,8 @@ name: stakater-nordmart-review-ui
 description: A Helm chart for Kubernetes
 dependencies:
   # name: <chart-name-in-deploy-folder>
-  - name: stakater-nordmart-review-web
-    version: "1.0.0"
+  - name: stakater-nordmart-review-ui
+    version: "0.0.0"
     # repository: <nexus-helm-reg-url>/repository/helm-charts/
     repository: nexus-helm-stakater-nexus.apps.preprod.jlvwjls8.kubeapp.cloud/repository/helm-charts/
 version: 1.0.0
