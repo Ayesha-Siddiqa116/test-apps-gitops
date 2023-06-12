@@ -1,0 +1,97 @@
+# <tenant-folder>/<app-folder>/<build-folder>/values.yaml
+   pipeline-charts:
+      name: stakater-main-pr-v1  # Chart name
+      workspaces:
+      - name: source
+        volumeClaimTemplate:
+          accessModes: ReadWriteOnce
+          resourcesRequestsStorage: 1Gi
+      - name: ssh-directory
+        secret:
+          secretName: repo-ssh-creds #(Give your own unique name)
+      - name: repo-token
+        secret:
+          secretName: stakater-ab-token
+      pipelines:
+        tasks:
+        - defaultTaskName: git-clone
+          params:
+            - name: url
+              value: "https://github.com/stakater-lab/stakater-nordmart-review-web.git"
+          workspaces:
+            - name: ssh-directory
+              workspace: ssh-directory
+        - defaultTaskName: stakater-create-git-tag-0-0-3
+        - defaultTaskName: stakater-build-image-flag-0-0-2
+          runAfter:
+            - stakater-create-git-tag-0-0-3
+        - defaultTaskName: stakater-buildah-0-0-2
+          name: build-and-push
+          params:
+            - name: IMAGE
+              value: $(params.image_registry_url):$(tasks.stakater-create-git-tag-0-0-3.results.GIT_TAG)
+            - name: CURRENT_GIT_TAG
+              value: $(tasks.stakater-create-git-tag-0-0-3.results.CURRENT_GIT_TAG)
+            - name: BUILD_IMAGE
+              value: $(tasks.stakater-build-image-flag-0-0-2.results.BUILD_IMAGE)
+        - defaultTaskName: stakater-comment-on-pr-0-0-2
+          params:
+            - name: image
+              value: >-
+                $(params.image_registry_url):$(tasks.stakater-create-git-tag-0-0-3.results.GIT_TAG)
+          runAfter:
+            - build-and-push
+        - defaultTaskName: stakater-helm-push-0-0-2
+          params:
+            - name: semVer
+              value: $(tasks.stakater-create-git-tag-0-0-3.results.GIT_TAG)
+        - defaultTaskName: stakater-github-update-cd-repo-0-0-2
+          params:
+            - name: CD_REPO_URL
+              value: 'git@github.com:stakater-ab/stakater-apps-gitops-prod.git'
+            - name: IMAGE_TAG
+              value: $(tasks.stakater-create-git-tag-0-0-3.results.GIT_TAG)
+        - defaultTaskName: stakater-push-main-tag-0-0-2
+          params:
+            - name: IMAGE_TAG
+              value: $(tasks.stakater-create-git-tag-0-0-3.results.GIT_TAG)
+            - name: GITHUB_TOKEN_SECRET
+      triggertemplate:
+        serviceAccountName: stakater-tekton-builder
+        pipelineRunNamePrefix: $(tt.params.repoName)-$(tt.params.prnumberBranch)
+        pipelineRunPodTemplate:
+          tolerations:
+            - key: "pipeline"
+              operator: "Exists"
+              effect: "NoExecute"
+      eventlistener:
+        serviceAccountName: stakater-tekton-builder
+        triggers:
+        - name: stakater-pr-cleaner-v2-pullrequest-merge
+          create: false
+        - name: github-pullrequest-create
+          bindings:
+          - ref: stakater-pr-v1
+          - name: oldcommit
+            value: $(body.pull_request.base.sha)
+          - name: newcommit
+            value: $(body.pull_request.head.sha)
+        - name: github-pullrequest-synchronize
+          bindings:
+          - ref: stakater-pr-v1
+          - name: oldcommit
+            value: $(body.before)
+          - name: newcommit
+            value: $(body.after)
+        - name: github-push
+          bindings:
+          - ref: stakater-main-v1
+          - name: oldcommit
+            value: $(body.before)
+          - name: newcommit
+            value: $(body.after)
+      rbac:
+        enabled: false
+      serviceAccount:
+        name: stakater-tekton-builder
+        create: false
