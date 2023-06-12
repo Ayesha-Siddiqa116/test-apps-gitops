@@ -59,7 +59,7 @@
             - name: GITHUB_TOKEN_SECRET
       triggertemplate:
         serviceAccountName: stakater-tekton-builder
-        pipelineRunNamePrefix: $(tt.params.repoName)-$(tt.params.prnumberBranch)
+        pipelineRunNamePrefix: stakater-nordmart-review-web-$(tt.params.prnumberBranch)
         pipelineRunPodTemplate:
           tolerations:
             - key: "pipeline"
