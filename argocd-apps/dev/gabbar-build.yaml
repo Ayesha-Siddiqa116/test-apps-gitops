@@ -1,17 +1,15 @@
-# Name: gabbar-dev.yaml (TENANT_NAME-ENV_NAME.yaml)
-# Path: argocd-apps/dev
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gabbar-dev
+  name: gabbar-build
   namespace: rh-openshift-gitops-instance
 spec:
   destination:
-    namespace: gabbar-dev
+    namespace: rh-openshift-gitops-instance
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: gabbar/stakater-nordmart-review/dev
+    path: gabbar/argocd-apps/build
     repoURL: 'git@github.com:ayeshasiddiqa161/test-apps-gitops.git'
     targetRevision: HEAD
   syncPolicy:
