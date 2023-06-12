@@ -9,7 +9,7 @@ spec:
   destination:
     namespace: gabbar-build
     server: 'https://kubernetes.default.svc'
-  project: gabbar
+  project: default
   source:
     path: gabbar/argocd-apps/dev
     repoURL: 'git@github.com:ayeshasiddiqa161/test-apps-gitops.git'
