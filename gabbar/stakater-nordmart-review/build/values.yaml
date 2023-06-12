@@ -21,6 +21,7 @@
           workspaces:
             - name: ssh-directory
               workspace: ssh-directory
+            - name: source
         - defaultTaskName: stakater-create-git-tag-0-0-3
         - defaultTaskName: stakater-build-image-flag-0-0-2
           runAfter:
