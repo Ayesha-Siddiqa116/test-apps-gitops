@@ -22,7 +22,7 @@ stakater-tekton-chart:
       - defaultTaskName: git-clone
         params:
           - name: url
-            value: "git@github.com:stakater/nordmart-apps-gitops-config.git"
+            value: "git@github.com:ayeshasiddiqa161/stakater-nordmart-review-web.git"
         workspaces:
           - name: ssh-directory
             workspace: ssh-directory
