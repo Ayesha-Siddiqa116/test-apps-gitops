@@ -2,9 +2,7 @@ stakater-tekton-chart:
   name: nordmart-pipeline
   workspaces:
     - name: source
-      volumeClaimTemplate:
-        accessModes: ReadWriteOnce
-        resourcesRequestsStorage: 1Gi
+      emptyDir: "true"
     - name: ssh-directory
       secret:
         secretName: nordmart-repo-ssh-creds
